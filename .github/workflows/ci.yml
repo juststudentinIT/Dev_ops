@@ -28,13 +28,19 @@ jobs:
       # Runs a single command using the runners shell
       - name: build
         run: |
-          g++ main.cpp -o app_${RUNNER_OS}_ver.${GITHUB_RUN_NUMBER}
-          \app_${RUNNER_OS}_ver.${GITHUB_RUN_NUMBER}
-         # .\app_${RUNNER_OS}_ver.${GITHUB_RUN_NUMBER}
+          cl main.cpp /Fe:app_c /std:c++latest
+          #g++ main.cpp -o app_${RUNNER_OS}_ver.${GITHUB_RUN_NUMBER}
+          #\app_${RUNNER_OS}_ver.${GITHUB_RUN_NUMBER}
+          # .\app_${RUNNER_OS}_ver.${GITHUB_RUN_NUMBER}
+      - name: run
+        run: |
+           app.exe
+        shell: cmd
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v3.1.0
         with:
          name: my_app
-         path: app_**
+         path: |
+          app.exe
       
       
