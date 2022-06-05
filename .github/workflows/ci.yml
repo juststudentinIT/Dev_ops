@@ -23,7 +23,6 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: ilammy/msvc-dev-cmd@v1.4.1
       - uses: actions/checkout@v3
 
       # Runs a single command using the runners shell
@@ -38,12 +37,19 @@ jobs:
          name: my_app
          path: app_**
          
-      - name: build_windows
-        run: cl /EHsc main.cpp
+  build_win:
+     runs-on: windows-2019
+     steps: 
+       - uses: ilammy/msvc-dev-cmd@v1.4.1
+       - uses: actions/checkout@v3
+       - name: build_windows
+         run: cl /EHsc main.cpp
 
-      - name: Upload a Build Artifact
-        uses: actions/upload-artifact@v3.1.0
-        with:
-         name: my_app
-         path: main.exe
+       - name: Upload a Build Artifact
+         uses: actions/upload-artifact@v3.1.0
+         with:
+          name: my_app
+          path: main.exe
       
+         
+   
