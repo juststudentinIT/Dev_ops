@@ -34,7 +34,7 @@ jobs:
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v3.1.0
         with:
-         name: my_app
+         name: my_app_ubu
          path: app_**
          
   build_mac:
@@ -55,7 +55,7 @@ jobs:
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v3.1.0
         with:
-         name: my_app
+         name: my_app_mac
          path: app_**
          
   build_win:
@@ -69,7 +69,7 @@ jobs:
        - name: Upload a Build Artifact
          uses: actions/upload-artifact@v3.1.0
          with:
-          name: my_app
+          name: my_app_win
           path: main.exe
       
          
