@@ -18,7 +18,7 @@ jobs:
   # This workflow contains a single job called "build"
   build:
     # The type of runner that the job will run on
-    runs-on: windows-2019
+    runs-on: ubuntu-18.04
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -27,20 +27,15 @@ jobs:
 
       # Runs a single command using the runners shell
       - name: build
-        run: |
-          cl main.cpp /Fe:app_c /std:c++latest
-          #g++ main.cpp -o app_${RUNNER_OS}_ver.${GITHUB_RUN_NUMBER}
+        run:
+          g++ main.cpp -o app_${RUNNER_OS}_ver.${GITHUB_RUN_NUMBER}
           #\app_${RUNNER_OS}_ver.${GITHUB_RUN_NUMBER}
           # .\app_${RUNNER_OS}_ver.${GITHUB_RUN_NUMBER}
-      - name: run
-        run: |
-           app_c.exe
-        shell: cmd
+
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v3.1.0
         with:
          name: my_app
-         path: |
-          app_c.exe
+         path: app_**
       
       
