@@ -53,13 +53,15 @@ jobs:
     runs-on: ubuntu-18.04
     needs: [ build_ubunty_mac, build_win]
     steps:
+     - name: emodji
+       run: echo         
      - name: send telegram message on push
        uses: appleboy/telegram-action@master
        with:
           to: ${{ secrets.TELEGRAM_TO }}
           token: ${{ secrets.TELEGRAM_TOKEN }}
+          sticker: ':scream:'
           message: |
-            ':scream:' 
             ${{ github.actor }} created commit:
             Commit message: ${{ github.event.commits[0].message }}
             
