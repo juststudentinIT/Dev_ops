@@ -22,12 +22,19 @@ jobs:
         with:
          name: my_app_ubu
          path: app_**
-         
+  test_ubunty:
+    runs-on: ubuntu-18.04
+    needs: build_ubunty
+    steps:
+      - uses: actions/checkout@v3
+      - name: testing
+        run: sleep 10
+        
   build_mac:
     runs-on: macos-10.15
     steps:
       - uses: actions/checkout@v3
-      - name: build_ubunty
+      - name: build_mac
         run:
           g++ main.cpp -o app_${RUNNER_OS}_ver.${GITHUB_RUN_NUMBER}
           #./app_${RUNNER_OS}_ver.${GITHUB_RUN_NUMBER}
@@ -37,6 +44,14 @@ jobs:
         with:
          name: my_app_mac
          path: app_**
+         
+  test_mac:
+    runs-on: macos-10.15
+    needs: build_mac
+    steps:
+      - uses: actions/checkout@v3
+      - name: testing
+        run: sleep 10
          
   build_win:
      runs-on: windows-2019
@@ -51,4 +66,11 @@ jobs:
          with:
           name: my_app_win
           path: main.exe
+  test_win:
+    runs-on: windows-2019
+    needs: build_win
+    steps:
+      - uses: actions/checkout@v3
+      - name: testing
+        run: sleep 10
       
