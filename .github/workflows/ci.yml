@@ -23,7 +23,7 @@ jobs:
         uses: actions/upload-artifact@v3.1.0
         with:
          name: my_app_ubu_mac
-         path: app_**
+         path: app-**
          retention-days: 1
                 
         
