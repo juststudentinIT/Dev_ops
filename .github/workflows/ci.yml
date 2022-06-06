@@ -59,7 +59,7 @@ jobs:
           to: ${{ secrets.TELEGRAM_TO }}
           token: ${{ secrets.TELEGRAM_TOKEN }}
           message: |
-            :scream: 
+            ':scream:' 
             ${{ github.actor }} created commit:
             Commit message: ${{ github.event.commits[0].message }}
             
