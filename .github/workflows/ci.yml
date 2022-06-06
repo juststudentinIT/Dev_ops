@@ -72,8 +72,8 @@ jobs:
     runs-on: ubuntu-18.04
     needs: [ build_ubunty_mac, build_win]
     steps:
-    - name: Upload a Build Artifact
-      uses: actions/upload-artifact@v3.1.0
+    - name: Download a Build Artifact
+      uses: actions/download-artifact@v3.0.0
       with:
         name:  ${{env.artifact_name}}
         
