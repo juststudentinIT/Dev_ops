@@ -79,7 +79,7 @@ jobs:
     - name: Zipping
       uses: montudor/action-zip@v1
       with:
-       args: zip -qq -r ${{env.artifact_name}}.zip app-**, main.exe
+       args: zip -qq -r ${{env.artifact_name}}.zip [app-**, main.exe]
         
     - name: send telegram message on push
       uses: appleboy/telegram-action@master
