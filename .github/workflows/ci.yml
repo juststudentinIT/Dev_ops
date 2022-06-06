@@ -6,6 +6,8 @@ on:
     branches: [ "main" ]
 
   workflow_dispatch:
+env:
+  artifact_name: app_ver_${{github.sha}}
  
 jobs:
   build_ubunty_mac:
@@ -28,7 +30,7 @@ jobs:
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v3.1.0
         with:
-         name: my_app_ubu_mac
+         name: ${{env.artifact_name}}
          path: app-**
          retention-days: 1
                 
@@ -44,7 +46,7 @@ jobs:
        - name: Upload a Build Artifact
          uses: actions/upload-artifact@v3.1.0
          with:
-          name: my_app_win
+          name: ${{env.artifact_name}}
           path: main.exe
           retention-days: 1
 
@@ -65,5 +67,24 @@ jobs:
             
             Repository: ${{ github.repository }}
             
+            See changes: https://github.com/${{ github.repository }}/commit/${{github.sha}}
+  export:
+    runs-on: ubuntu-18.04
+    needs: [ build_ubunty_mac, build_win]
+    steps:
+    - name: Upload a Build Artifact
+      uses: actions/upload-artifact@v3.1.0
+      with:
+        name:  ${{env.artifact_name}}
+        
+    - name: send telegram message on push
+      uses: appleboy/telegram-action@master
+      with:
+          to: ${{ secrets.TELEGRAM_TO }}
+          token: ${{ secrets.TELEGRAM_TOKEN }}
+          document:  app-**
+          message: |
+            😎
+            ${{ github.actor }} created commit:            
             See changes: https://github.com/${{ github.repository }}/commit/${{github.sha}}
       
