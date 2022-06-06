@@ -49,6 +49,7 @@ jobs:
           retention-days: 1
 
   report:
+   # if: failure()
     runs-on: ubuntu-18.04
     needs: [ build_ubunty_mac, build_win]
     steps:
@@ -58,6 +59,7 @@ jobs:
           to: ${{ secrets.TELEGRAM_TO }}
           token: ${{ secrets.TELEGRAM_TOKEN }}
           message: |
+            :scream: 
             ${{ github.actor }} created commit:
             Commit message: ${{ github.event.commits[0].message }}
             
