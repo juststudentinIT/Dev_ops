@@ -14,6 +14,12 @@ jobs:
       matrix:
         os: [ubuntu-18.04, macos-10.15]
         gcc_o: ["-O0","-O3"]
+        exclude:
+          - os: ubunty-18.04
+            gcc_o: "-O0"
+        include:
+          - os: ubunty-18.04
+            gcc_o: "-O2"
     steps:
       - uses: actions/checkout@v3
       - name: build_ubunty
