@@ -1,0 +1,90 @@
+name: CI
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+  workflow_dispatch:
+env:
+  artifact_name: app_ver_${{github.sha}}
+ 
+jobs:
+  build_ubunty_mac:
+    runs-on: ${{matrix.os}}
+    strategy:
+      matrix:
+        os: [ubuntu-18.04, macos-10.15]
+        gcc_o: ["-O0", "-O2"]
+        exclude:
+          - os: ubuntu-18.04
+            gcc_o: "-O2"
+        include:
+          - os: ubuntu-18.04
+            gcc_o: "-O3"
+    steps:
+      - uses: actions/checkout@v3
+      - name: build_ubunty
+        run:
+          g++ main.cpp ${{matrix.gcc_o}} -o app-${RUNNER_OS}${{matrix.gcc_o}}_ver.${GITHUB_RUN_NUMBER}
+      - name: Upload a Build Artifact
+        uses: actions/upload-artifact@v3.1.0
+        with:
+         name: ${{env.artifact_name}}
+         path: app-**
+         retention-days: 1
+                
+        
+  build_win:
+     runs-on: windows-2019
+     steps: 
+       - uses: ilammy/msvc-dev-cmd@v1.4.1
+       - uses: actions/checkout@v3
+       - name: build_windows
+         run: cl /EHsc main.cpp
+
+       - name: Upload a Build Artifact
+         uses: actions/upload-artifact@v3.1.0
+         with:
+          name: ${{env.artifact_name}}
+          path: main.exe
+          retention-days: 1
+
+  report:
+    if: failure()
+    runs-on: ubuntu-18.04
+    needs: [ build_ubunty_mac, build_win]
+    steps:        
+     - name: send telegram message on push
+       uses: appleboy/telegram-action@master
+       with:
+          to: ${{ secrets.TELEGRAM_TO }}
+          token: ${{ secrets.TELEGRAM_TOKEN }}
+          message: |
+            😱
+            ${{ github.actor }} created commit:
+            Commit message: ${{ github.event.commits[0].message }}
+            
+            Repository: ${{ github.repository }}
+            
+            See changes: https://github.com/${{ github.repository }}/commit/${{github.sha}}
+  export:
+    runs-on: ubuntu-18.04
+    needs: [ build_ubunty_mac, build_win]
+    steps:
+    - name: Download a Build Artifact
+      uses: actions/download-artifact@v3.0.0
+      with:
+        name:  ${{env.artifact_name}}
+        
+    - name: send telegram message on push
+      uses: appleboy/telegram-action@master
+      with:
+          to: ${{ secrets.TELEGRAM_TO }}
+          token: ${{ secrets.TELEGRAM_TOKEN }}
+          document: app-**, main.exe
+          message: |
+            😎
+            ${{ github.actor }} created commit:            
+            See changes: https://github.com/${{ github.repository }}/commit/${{github.sha}}
+      
