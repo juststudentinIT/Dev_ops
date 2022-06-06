@@ -22,6 +22,8 @@ jobs:
         with:
          name: my_app_ubu
          path: app_**
+         retention-days: 1
+        
   test_ubunty:
     runs-on: ubuntu-18.04
     needs: build_ubunty
@@ -44,6 +46,7 @@ jobs:
         with:
          name: my_app_mac
          path: app_**
+         retention-days: 1
          
   test_mac:
     runs-on: macos-10.15
@@ -66,6 +69,7 @@ jobs:
          with:
           name: my_app_win
           path: main.exe
+          retention-days: 1
   test_win:
     runs-on: windows-2019
     needs: build_win
