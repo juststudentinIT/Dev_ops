@@ -82,7 +82,7 @@ jobs:
       with:
           to: ${{ secrets.TELEGRAM_TO }}
           token: ${{ secrets.TELEGRAM_TOKEN }}
-          document:  app-**
+          document: ${{env.artifact_name}}
           message: |
             😎
             ${{ github.actor }} created commit:            
