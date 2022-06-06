@@ -49,7 +49,7 @@ jobs:
           retention-days: 1
 
   report:
-   # if: failure()
+    if: failure()
     runs-on: ubuntu-18.04
     needs: [ build_ubunty_mac, build_win]
     steps:        
