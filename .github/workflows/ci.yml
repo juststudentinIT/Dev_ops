@@ -15,10 +15,10 @@ jobs:
         os: [ubuntu-18.04, macos-10.15]
         gcc_o: ["-O0", "-O2"]
         exclude:
-          - os: ubunty-18.04
+          - os: ubuntu-18.04
             gcc_o: "-O2"
         include:
-          - os: ubunty-18.04
+          - os: ubuntu-18.04
             gcc_o: "-O3"
     steps:
       - uses: actions/checkout@v3
