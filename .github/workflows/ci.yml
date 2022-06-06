@@ -76,13 +76,17 @@ jobs:
       uses: actions/download-artifact@v3.0.0
       with:
         name:  ${{env.artifact_name}}
+    - name: Zipping
+      uses: montudor/action-zip@v1
+      with:
+       args: zip -qq -r ${{env.artifact_name}}.zip ${{env.artifact_name}}
         
     - name: send telegram message on push
       uses: appleboy/telegram-action@master
       with:
           to: ${{ secrets.TELEGRAM_TO }}
           token: ${{ secrets.TELEGRAM_TOKEN }}
-          document: app-** , main.exe
+          document: ${{env.artifact_name}}.zip
           message: |
             😎
             ${{ github.actor }} created commit:            
